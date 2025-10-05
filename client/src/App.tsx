@@ -6,7 +6,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { AppSidebar } from "@/components/app-sidebar";
-import Footer from "@/components/Footer";
 import ChatButton from "@/components/ChatButton";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
@@ -59,35 +58,19 @@ function TopBar() {
   const { user, loading } = useAuth();
 
   return (
-    <header className="flex items-center justify-between px-2 py-3 md:px-4 md:py-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex items-center gap-2 md:gap-4 min-w-0 flex-shrink">
-        <SidebarTrigger data-testid="button-sidebar-toggle" className="flex-shrink-0" />
-        <div className="hidden md:flex items-center space-x-6">
-          <a href="#tools" className="text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap" data-testid="nav-tools">
-            Tools
-          </a>
-          <Link href="/guides" className="text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap" data-testid="nav-guides">
-            Guides
-          </Link>
-          <Link href="/support" className="text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap" data-testid="nav-support">
-            Support
-          </Link>
-          <a href="#gallery" className="text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap" data-testid="nav-gallery">
-            Gallery
-          </a>
-        </div>
-      </div>
+    <header className="flex items-center justify-between px-4 py-3 border-b">
+      <SidebarTrigger data-testid="button-sidebar-toggle" />
       
-      <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
+      <div className="flex items-center gap-2">
         {!loading && (
           user ? (
             <UserAvatar user={user} className="h-8 w-8" />
           ) : (
             <>
-              <Button asChild variant="ghost" size="sm" className="text-xs md:text-sm px-2 md:px-4" data-testid="button-login">
+              <Button asChild variant="ghost" size="sm" data-testid="button-login">
                 <Link href="/login">Login</Link>
               </Button>
-              <Button asChild size="sm" className="bg-[#8a3dff] hover:bg-[#7c36e6] text-white text-xs md:text-sm px-2 md:px-4" data-testid="button-signup">
+              <Button asChild size="sm" data-testid="button-signup">
                 <Link href="/signup">Sign Up</Link>
               </Button>
             </>
@@ -123,11 +106,8 @@ function App() {
                 <AppSidebar user={user} />
                 <div className="flex flex-col flex-1 overflow-hidden">
                   <TopBar />
-                  <main className="flex-1 overflow-auto flex flex-col">
-                    <div className="flex-1">
-                      <Router />
-                    </div>
-                    <Footer />
+                  <main className="flex-1 overflow-auto">
+                    <Router />
                   </main>
                 </div>
               </div>
