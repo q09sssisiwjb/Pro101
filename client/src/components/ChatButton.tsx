@@ -6,7 +6,7 @@ const ChatButton = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
 
   const menuItems = [
     { icon: Image, label: 'Generate Image', action: () => setLocation('/text-to-image') },
@@ -15,6 +15,9 @@ const ChatButton = () => {
     { icon: RefreshCw, label: 'Image to Image', action: () => setLocation('/image-to-image') },
     { icon: PenTool, label: 'Sketch', action: () => setLocation('/image-to-sketch') },
   ];
+
+  // Hide button if not on home page
+  if (location !== '/') return null;
 
   // Close menu when clicking outside
   useEffect(() => {
