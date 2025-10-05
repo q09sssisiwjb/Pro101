@@ -4,10 +4,9 @@ import { useLocation } from 'wouter';
 
 const ChatButton = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
 
   const menuItems = [
     { icon: Image, label: 'Generate Image', action: () => setLocation('/text-to-image') },
@@ -16,12 +15,6 @@ const ChatButton = () => {
     { icon: RefreshCw, label: 'Image to Image', action: () => setLocation('/image-to-image') },
     { icon: PenTool, label: 'Sketch', action: () => setLocation('/image-to-sketch') },
   ];
-
-  // Hide button when location changes
-  useEffect(() => {
-    setIsMenuOpen(false);
-    setIsVisible(false);
-  }, [location]);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -44,8 +37,6 @@ const ChatButton = () => {
     action();
     setIsMenuOpen(false);
   };
-
-  if (!isVisible) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-40">
