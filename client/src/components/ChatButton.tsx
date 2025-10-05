@@ -16,9 +16,6 @@ const ChatButton = () => {
     { icon: PenTool, label: 'Sketch', action: () => setLocation('/image-to-sketch') },
   ];
 
-  // Hide button if not on home page
-  if (location !== '/') return null;
-
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,6 +37,9 @@ const ChatButton = () => {
     action();
     setIsMenuOpen(false);
   };
+
+  // Hide button if not on home page
+  if (location !== '/') return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-40">
