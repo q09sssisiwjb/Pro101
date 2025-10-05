@@ -6,7 +6,7 @@ const ChatButton = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
 
   const menuItems = [
     { icon: Image, label: 'Generate Image', action: () => setLocation('/text-to-image') },
@@ -15,6 +15,11 @@ const ChatButton = () => {
     { icon: RefreshCw, label: 'Image to Image', action: () => setLocation('/image-to-image') },
     { icon: PenTool, label: 'Sketch', action: () => setLocation('/image-to-sketch') },
   ];
+
+  // Close menu when location changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location]);
 
   // Close menu when clicking outside
   useEffect(() => {
