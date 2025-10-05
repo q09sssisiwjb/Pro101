@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent-purple: hsl(265, 100%, 61%);
+  --accent-pink: hsl(327, 100%, 72%);
+  --accent-blue: hsl(204, 100%, 72%);
+  --radius: 0.75rem;
+
+  /* Light mode colors */
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(240, 10%, 10%);
+  --card: hsl(0, 0%, 98%);
+  --card-foreground: hsl(240, 10%, 10%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(240, 10%, 10%);
+  --primary: var(--accent-purple);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(240, 5%, 96%);
+  --secondary-foreground: hsl(240, 10%, 10%);
+  --muted: hsl(240, 5%, 96%);
+  --muted-foreground: hsl(240, 4%, 46%);
+  --accent: var(--accent-blue);
+  --accent-foreground: hsl(240, 10%, 10%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(240, 6%, 90%);
+  --input: hsl(240, 6%, 90%);
+  --ring: var(--accent-purple);
+  color-scheme: light;
+}
+
+.dark {
+  --background: hsl(240, 14%, 5%);
+  --foreground: hsl(240, 5%, 90%);
+  --card: hsl(240, 10%, 7%);
+  --card-foreground: hsl(240, 5%, 90%);
+  --popover: hsl(240, 10%, 7%);
+  --popover-foreground: hsl(240, 5%, 90%);
+  --primary: var(--accent-purple);
+  --primary-foreground: hsl(240, 14%, 5%);
+  --secondary: var(--accent-pink);
+  --secondary-foreground: hsl(240, 14%, 5%);
+  --muted: hsl(240, 10%, 7%);
+  --muted-foreground: hsl(240, 4%, 65%);
+  --accent: var(--accent-blue);
+  --accent-foreground: hsl(240, 14%, 5%);
+  --destructive: hsl(0, 100%, 74%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(253, 100%, 72%, 0.15);
+  --input: hsl(240, 10%, 7%);
+  --ring: var(--accent-purple);
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-body antialiased bg-background text-foreground;
+  }
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-slide-in { 
+  animation: slideIn 0.6s ease-out; 
+}
+
+.animate-fade-in { 
+  animation: fadeIn 0.4s ease-out; 
+}
+
+/* Custom scrollbar styles for horizontal filters */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth hover scaling */
+.hover\:scale-102:hover {
+  transform: scale(1.02);
+}
+
+.slider-container {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.slider-container::-webkit-scrollbar { 
+  display: none; 
+}
+
+.slider-slide { 
+  scroll-snap-align: start; 
+}
