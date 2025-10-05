@@ -88,17 +88,17 @@ export default function Support() {
   };
 
   return (
-    <div className="container mx-auto max-w-5xl px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4" data-testid="support-page-title">
+    <div className="container mx-auto max-w-5xl px-4 py-4 md:py-8 overflow-x-hidden">
+      <div className="mb-4 md:mb-8">
+        <h1 className="text-3xl md:text-5xl font-bold mb-2 md:mb-4" data-testid="support-page-title">
           Customer Support
         </h1>
-        <p className="text-muted-foreground text-lg" data-testid="support-page-description">
+        <p className="text-muted-foreground text-base md:text-lg" data-testid="support-page-description">
           Get instant help from our AI-powered support assistant
         </p>
       </div>
 
-      <Card className="h-[600px] flex flex-col">
+      <Card className="h-[500px] md:h-[600px] flex flex-col">
         <CardHeader>
           <div className="flex items-center gap-3">
             <div className="p-2 bg-primary/10 rounded-lg">
@@ -127,13 +127,13 @@ export default function Support() {
                     </div>
                   )}
                   <div
-                    className={`rounded-lg px-4 py-2 max-w-[80%] ${
+                    className={`rounded-lg px-4 py-2 max-w-[80%] break-words ${
                       message.role === "user"
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted"
                     }`}
                   >
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
                     <p className="text-xs opacity-70 mt-1">
                       {message.timestamp.toLocaleTimeString([], {
                         hour: "2-digit",
