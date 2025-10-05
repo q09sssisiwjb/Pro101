@@ -1,10 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Skeleton } from "@/components/ui/skeleton";
-import { MessageCircle, Send, Bot, User } from "lucide-react";
+import { Send, Bot } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -18,19 +15,17 @@ export default function Support() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hello! I'm your Visionary AI support assistant. I can help you with questions about our platform, features, tools, and troubleshooting. How can I assist you today?",
+      content: "I am Visionary AI's helpful customer support assistant! You can just call me your Visionary AI assistant.",
       timestamp: new Date(),
     },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const handleSendMessage = async () => {
@@ -88,151 +83,84 @@ export default function Support() {
   };
 
   return (
-    <div className="container mx-auto max-w-5xl px-4 py-4 md:py-8 overflow-x-hidden">
-      <div className="mb-4 md:mb-8">
-        <h1 className="text-3xl md:text-5xl font-bold mb-2 md:mb-4" data-testid="support-page-title">
-          Customer Support
-        </h1>
-        <p className="text-muted-foreground text-base md:text-lg" data-testid="support-page-description">
-          Get instant help from our AI-powered support assistant
-        </p>
-      </div>
-
-      <Card className="h-[500px] md:h-[600px] flex flex-col">
-        <CardHeader>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <MessageCircle className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <CardTitle>Support Chat</CardTitle>
-              <CardDescription>Ask anything about Visionary AI</CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="flex-1 flex flex-col p-0">
-          <ScrollArea className="flex-1 px-6" ref={scrollAreaRef}>
-            <div className="space-y-4 pb-4">
-              {messages.map((message, index) => (
-                <div
-                  key={index}
-                  className={`flex gap-3 ${
-                    message.role === "user" ? "justify-end" : "justify-start"
-                  }`}
-                  data-testid={`message-${message.role}-${index}`}
-                >
-                  {message.role === "assistant" && (
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <Bot className="w-5 h-5 text-primary" />
-                    </div>
-                  )}
-                  <div
-                    className={`rounded-lg px-4 py-2 max-w-[80%] break-words ${
-                      message.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted"
-                    }`}
-                  >
-                    <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
-                    <p className="text-xs opacity-70 mt-1">
-                      {message.timestamp.toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
-                  </div>
-                  {message.role === "user" && (
-                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-                      <User className="w-5 h-5 text-primary-foreground" />
-                    </div>
-                  )}
-                </div>
-              ))}
-              {isLoading && (
-                <div className="flex gap-3 justify-start">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="bg-muted rounded-lg px-4 py-2 max-w-[80%]">
-                    <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce" />
-                      <div className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce delay-100" />
-                      <div className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce delay-200" />
-                    </div>
-                  </div>
+    <div className="flex flex-col h-[calc(100vh-4rem)] w-full max-w-4xl mx-auto">
+      <div className="flex-1 overflow-y-auto px-4 py-6">
+        <div className="space-y-6">
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`flex gap-3 ${
+                message.role === "user" ? "justify-end" : "justify-start"
+              }`}
+              data-testid={`message-${message.role}-${index}`}
+            >
+              {message.role === "assistant" && (
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                  <Bot className="w-5 h-5 text-primary" />
                 </div>
               )}
+              <div className="flex flex-col max-w-[85%] md:max-w-[75%]">
+                <div
+                  className={`rounded-2xl px-4 py-3 break-words ${
+                    message.role === "user"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted dark:bg-muted/50"
+                  }`}
+                >
+                  <p className="text-[15px] leading-relaxed whitespace-pre-wrap break-words">
+                    {message.content}
+                  </p>
+                </div>
+                <p className="text-[11px] text-muted-foreground mt-1 px-2">
+                  {message.timestamp.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
             </div>
-          </ScrollArea>
-
-          <div className="border-t p-4">
-            <div className="flex gap-2">
-              <Input
-                placeholder="Type your question here..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                disabled={isLoading}
-                data-testid="input-support-message"
-                className="flex-1"
-              />
-              <Button
-                onClick={handleSendMessage}
-                disabled={!input.trim() || isLoading}
-                data-testid="button-send-message"
-              >
-                <Send className="w-4 h-4" />
-              </Button>
+          ))}
+          {isLoading && (
+            <div className="flex gap-3 justify-start">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                <Bot className="w-5 h-5 text-primary" />
+              </div>
+              <div className="bg-muted dark:bg-muted/50 rounded-2xl px-4 py-3">
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce" />
+                  <div className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce" style={{ animationDelay: "0.1s" }} />
+                  <div className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
+                </div>
+              </div>
             </div>
-            <p className="text-xs text-muted-foreground mt-2">
-              Powered by Google Gemini AI
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+      </div>
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Quick Help</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• How to generate images</li>
-              <li>• Creating custom art styles</li>
-              <li>• Using background remover</li>
-              <li>• Account and profile help</li>
-            </ul>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Common Questions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Image quality settings</li>
-              <li>• Supported file formats</li>
-              <li>• Custom model setup</li>
-              <li>• Saving and sharing</li>
-            </ul>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Need More Help?</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-3">
-              Check out our comprehensive guides for detailed tutorials.
-            </p>
-            <Button variant="outline" size="sm" asChild data-testid="button-view-guides">
-              <a href="/guides">View Guides</a>
+      <div className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="px-4 py-4 max-w-4xl mx-auto">
+          <div className="flex gap-2 items-end">
+            <Input
+              placeholder="Message Visionary AI support..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              disabled={isLoading}
+              data-testid="input-support-message"
+              className="flex-1 min-h-[44px] rounded-xl"
+            />
+            <Button
+              onClick={handleSendMessage}
+              disabled={!input.trim() || isLoading}
+              data-testid="button-send-message"
+              size="icon"
+              className="h-[44px] w-[44px] rounded-xl flex-shrink-0"
+            >
+              <Send className="w-5 h-5" />
             </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
